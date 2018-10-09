@@ -18,3 +18,7 @@ Required arguments:
                      which containe .res files
 ## Output
 Comma separated output of multiple rows
+
+example:
+Run,Learning_rate,Question,#_Hidden_nodes,Part,Epoches,Architecture,id,Momentum,train-wrong0,train-right0,train-unknown0,test-wrong0,test-right0,test-unknown0
+test,0.1,6,5,p2,500,A:23-5-1,p2_6_50.1500,0.1,0.00,40.83,59.17,0.00,43.96,56.04
