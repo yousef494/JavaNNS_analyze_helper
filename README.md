@@ -1,4 +1,7 @@
 # JavaNNS_analyze_helper
+## Description
+This is a helper python script to simplify multiple run of JavNNS analyze program to only one.
+Also, it combines each train result and corresponding test result in a row.
 ## Usage
 usage: analyze_helper.py [-h] -d DIR
 
@@ -13,3 +16,5 @@ optional arguments:
 Required arguments:
   -d DIR, --dir DIR  Results directory which containes all sub-direcotries
                      which containe .res files
+## Output
+Comma separated output of multiple rows
