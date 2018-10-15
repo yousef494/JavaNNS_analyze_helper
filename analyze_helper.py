@@ -85,19 +85,33 @@ def get_prop(dir, file_name):
     prop['id'] = dir+'_'+prop['#_Hidden_nodes']+prop['Learning_rate']+prop['Epoches']
     return prop
 
-
 def run_analyze(file_path):
     result = []
+    num_of_pattren = '1'
     analyze = os.path.join(ANALYZE_COMMAND)
-    output = subprocess.Popen([analyze, "-c", "-i", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output = subprocess.Popen([analyze, "-s", "-i", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     for line in output.stdout:
-	line = line.strip()
-    	if (':' in line) and ('%' in line):
+        line = line.strip()
+    	if (':' in line)  and ('%' in line):
         	data = line.split(':')
         	values = data[1].strip().split('%')
-            	jData = {}
-            	jData[data[0].strip()] = values[0].strip()
-            	result.append(values[0].strip())
+        	jData = {}
+        	jData[data[0].strip()] = values[0].strip()
+        	result.append(values[0].strip())
+        elif (':' in line)  and ('error' in line):
+            data = line.split(':')
+            values = data[1].strip().split('%')
+            jData = {}
+            jData[data[0].strip()] = values[0].strip()
+            error = values[0].strip()
+            mse = "???"
+            result.append(error)
+            result.append(str(mse))
+        elif ('STATISTICS' in line):
+            data = line.split('(')
+            num_of_pattren = data[1].strip().split(' ')[0]
+
+
     return result
 
 
@@ -114,15 +128,15 @@ def print_csv(prop_keys,json_obj):
 
 
 def print_labels(prop_keys, record):
-    length = len(record['train'])/3
-    if len(record['test'])/3 > len(record['train'])/3:
-        length = len(record['test'])/3
+    length = len(record['train'])/4
+    if len(record['test'])/4 > len(record['train'])/4:
+        length = len(record['test'])/4
     train_labels = ''
     test_labels = ''
     for index in range(length):
         i = str(index)
-        train_labels = train_labels + ',train-wrong'+i+',train-right'+i+',train-unknown'+i
-        test_labels = test_labels + ',test-wrong'+i+',test-right'+i+',test-unknown'+i
+        train_labels = train_labels + ',TRAIN-ERROR'+i+',train-right'+i+',train-unknown'+i+',train-tse'+i+',TRAIN-MSE'+i
+        test_labels = test_labels + ',TEST-ERROR'+i+',test-right'+i+',test-unknown'+i+',test-tse'+i+',TEST-MSE'+i
     print ','.join(prop_keys) + train_labels + test_labels
 
 
